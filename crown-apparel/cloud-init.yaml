@@ -1,8 +1,0 @@
-users:
-  - default
-  - name: crownapp
-    sudo: ALL=(ALL) NOPASSWD:ALL
-    shell: /bin/bash
-    ssh_authorized_keys:
-
-
