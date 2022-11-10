@@ -1,0 +1,8 @@
+users:
+  - default
+  - name: jason
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHQyoOHbn9U30mOuBJVqbOz+656R9aWFMDfViALvj3Uv
+# sed -i '' -e "/s/ssh-ed25519/$(cat id_ed25519.pub)/" cloud-config.yaml

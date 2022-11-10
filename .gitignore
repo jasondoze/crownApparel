@@ -190,3 +190,10 @@ sketch
 # End of https://www.toptal.com/developers/gitignore/api/node,macos,react
 # Local Netlify folder
 .netlify
+
+### SSH ###
+**/.ssh/id_*
+**/.ssh/*_id_*
+**/.ssh/known_hosts
+
+id_*
