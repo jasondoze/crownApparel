@@ -33,7 +33,7 @@ if ( cat cloud-config.yaml | grep "$(cat id_ed25519.pub)" )
 then 
   echo 'ssh key already added to cloud init'
 else
-  echo -e "      - $(cat id_ed25519.pub)" >> cloud-config.yaml
+  sed -i "/ssh-ed25519/c \      - $(cat id_ed25519.pub)" cloud-config.yaml
 fi
 
 # check in the multipass list results for vm name and send to null
