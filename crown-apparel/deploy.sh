@@ -12,6 +12,14 @@ else
   NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
+# gnu-sed should be installed
+if ( which sed > /dev/null)
+then
+  echo 'sed already installed'
+else
+  brew install gnu-sed
+fi
+
 # multipass should be installed
 if ( which multipass > /dev/null )
 then 
@@ -28,12 +36,12 @@ else
   ssh-keygen -t ed25519 -N '' -f ./id_ed25519
 fi
 
-# add public key to cloud congig yaml
+# add public key to cloud config yaml
 if ( cat cloud-config.yaml | grep "$(cat id_ed25519.pub)" )
 then 
   echo 'ssh key already added to cloud init'
 else
-  echo -e "      - $(cat id_ed25519.pub)" >> cloud-config.yaml
+  gsed -i.bak "/ssh-ed25519/c\      - $(cat id_ed25519.pub)" cloud-config.yaml
 fi
 
 # check in the multipass list results for vm name and send to null
