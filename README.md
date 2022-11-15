@@ -65,6 +65,21 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/a
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
+
+1. Local VM
+   
+Create VM
+
+`multipass launch --name crown-app jammy`
+
+SSH into VM
+
+`ssh -o "StrictHostKeyChecking no" ubuntu@$(multipass info crown-app | grep IPv4 | cut -d ' ' -f 12)`
+
+
+
+
+
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
