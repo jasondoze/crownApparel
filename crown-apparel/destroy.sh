@@ -28,12 +28,3 @@ else
   echo 'no keys present'
 fi
 
-# delete the cloud-config.yaml.bak file
-if [ -f cloud-config.yaml.bak ]
-then 
-  echo 'delete config.yaml.bak file'
-  rm cloud-config.yaml.bak
-else
-  echo 'no yaml.bak file'
-fi
-
