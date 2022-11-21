@@ -2,6 +2,7 @@
 
 echo "crown app deploy..."
 
+# this sets a timer
 sudo true
 
 # brew should be installed
@@ -53,5 +54,21 @@ else
   multipass launch --name crownapp --cloud-init cloud-config.yaml
 fi 
 
-# ssh into vm  grep out the ip from multipass list $()
-ssh -o StrictHostKeyChecking=no -i ./id_ed25519 jason@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | awk '{print $2}')                                                                 
+# copy up necessary files to production deploy
+rsync -av -e "ssh -o StrictHostKeyChecking=no -i ./id_ed25519" --delete --exclude={'node_modules','.git','.gitignore','id_ed25519*','cloud-config.yaml'} $(pwd) jason@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | awk '{print $2}'):/home/jason  
+
+# use ssh to execute a command on the remote vm
+echo -e "\n==== executing install ===="
+ssh -o StrictHostKeyChecking=no -i ./id_ed25519 jason@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | awk '{print $2}') 'cd crown-apparel && bash install.sh'   
+
+# ssh into vm-  grep out the ip from multipass list $()
+ssh -o StrictHostKeyChecking=no -i ./id_ed25519 jason@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | awk '{print $2}') 
+
+# make a new script install.sh 
+# install node, npm, npm i, npm run build
+# write the code to be item potent
+# show that the app is running through the ip address
+# before ssh in, 
+# ssh into vm-  grep out the ip from multipass list $()
+
+# write a system deservice that runs the app and enables it, how to write systemd for node
