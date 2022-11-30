@@ -58,7 +58,7 @@ else
 fi 
 
 # copy up necessary files to production deploy
-rsync -av -e "ssh -o StrictHostKeyChecking=no -i ./id_ed25519" --delete --exclude={'node_modules','.git','.gitignore','id_ed25519*','cloud-config.yaml'} $(pwd) jason@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | awk '{print $2}'):/home/jason  
+rsync -av -e "ssh -o StrictHostKeyChecking=no -i ./id_ed25519" --delete --exclude={'build','node_modules','.git','.gitignore','id_ed25519*','cloud-config.yaml'} $(pwd) jason@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | awk '{print $2}'):/home/jason  
 
 # use ssh to execute a command on the remote vm
 echo -e "\n==== Executing install ====\n"
@@ -67,5 +67,3 @@ ssh -o StrictHostKeyChecking=no -i ./id_ed25519 jason@$(multipass info crownapp 
 # ssh into vm-  grep out the ip from multipass list $()
 echo -e "\n==== SSH into vm ===="
 ssh -o StrictHostKeyChecking=no -i ./id_ed25519 jason@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | awk '{print $2}') 
-
-# htop
