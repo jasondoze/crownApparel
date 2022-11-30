@@ -4,5 +4,5 @@ users:
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
     ssh_authorized_keys:
-      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICkA1oCrxUT59RS0PI78nkPA+vtty1aA72CWQGrHXPV4 jasondoze@jd.attlocal.net
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL/5+5o3dRib+l5QXG1gmYOlzH5vRqWUiECy6fySaVhC jasondoze@jd.attlocal.net
       
