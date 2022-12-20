@@ -198,3 +198,5 @@ sketch
 **/.ssh/known_hosts
 
 id_*
+
+.DS_Store

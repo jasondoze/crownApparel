@@ -36,6 +36,25 @@ else
   npm run build
 fi
 
+# copy service and reload daemon
+if [ -f /lib/systemd/system/crownapp.service ] 
+then
+  echo -e "\n==== Service file already exists ===="
+else 
+  echo -e "\n==== Copying crownapp.service ===="
+  sudo cp crownapp.service /lib/systemd/system/ && sudo systemctl daemon-reload
+fi
+
+
+# start the crownapp service
+if ( systemctl is-active crownapp.service ) 
+then
+  echo -e "\n==== Crown app is running ===="
+else 
+  echo -e "\n==== Starting crownapp ===="
+  sudo systemctl restart crownapp.service
+fi
+
 echo -e "\n==== Install complete ====\n"
 
 echo "                                                                                                         "
@@ -45,11 +64,6 @@ echo "  /    \  \/ \_  __ \ /  _ \ \ \/ \/ / /    \   /  /_\  \ \____ \ \____ \ 
 echo "  \     \____ |  | \/(  <_> ) \     / |   |  \ /    |    \|  |_> >|  |_> > / __ \_ |  | \/\  ___/ |  |__ "
 echo "   \______  / |__|    \____/   \/\_/  |___|  / \____|__  /|   __/ |   __/ (____  / |__|    \___  >|____/ "
 echo "          \/                               \/          \/ |__|    |__|         \/              \/        "
-
-# run the application
-echo -e "\n==== Run crownapp ===="
-npm start 
-
 
 
 # sudo curl http://192.168.64.9:3000

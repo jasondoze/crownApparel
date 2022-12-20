@@ -1,0 +1,14 @@
+[Unit]
+Description=Crown apparel service
+After=network.target
+
+[Service]
+Environment=NODE_ENV=production
+Type=simple
+User=jason
+WorkingDirectory=/home/jason/crown-apparel/
+ExecStart=/usr/bin/npm start 
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
