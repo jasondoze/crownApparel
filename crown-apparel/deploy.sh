@@ -2,7 +2,7 @@
 
 echo "Crownapp deploy..."
 
-# this sets a timer
+# the default password prompt timeout for the sudoers security policy is 5 minutes
 sudo true
 
 # brew should be installed
