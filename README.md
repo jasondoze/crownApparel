@@ -1,71 +1,31 @@
-# Getting Started with Create React App
+# After cloning application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Set firebase configuration
+Replace the config variable in firebase.utils.js with your own config object from the firebase dashboard. Navigate to the project settings gear icon project settings and scroll down to the config code. Copy the object in the code and replace the variable in your code.
 
-## Available Scripts
+https://firebase.google.com/
 
-In the project directory, you can run:
+## Set stripe demo payment configuration
+In the crown-apparel directory, create a .env file with 2 variables:
+`REACT_APP_STRIPE_PUBLISHABLE_KEY=`
+`STRIPE_SECRET_KEY=`
 
-### `npm start`
+On the stripe website, get the publishable and secret key from the developers test mode and add the keys without spaces as a string in double quotes.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+https://stripe.com/ 
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Deploy Crown App from localhost
+1. Navigate to crown-apparel directory
 
-### `npm test`
+2. Enter name into cloud-config.yaml (my name is hard-coded in, this is a conflict for the subshell commands)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3. From the command line, run `bash deploy.sh`
 
-### `npm run build`
+4. Enter your computer password when prompted.
+   
+5. Wait for the multipass virtual machine to be created and the app to be configured and deployed. When it has completed, type the IP address listed followed by :3000 in a browser to view the application running.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+6. When finished with the app, type `exit` into the virtual machine command prompt.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+7. Back in your local terminal, run the command `bash destroy.sh` to delete the virtual machine and all contents.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
