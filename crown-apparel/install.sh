@@ -1,57 +1,61 @@
 #!bin/bash
-echo -e "==== Beginning install ====\n"
 
+# This script performs the following tasks: installing application dependencies, building the application, transferring the systemd service file, and restarting the service.
+
+echo -e "\n==== Beginning install ====\n"
+
+# Install NodeJS setup
 if ( apt-cache show nodejs ) 
 then
-  echo -e "\n==== Node setup already installed ===="
+  echo -e "\n==== NodeJS setup present ====\n"
 else 
-  echo -e "\n==== Checking if Nodejs setup is installed ===="
+  echo -e "\n==== Installing NodeJS setup ====\n"
   curl -fsSL https://deb.nodesource.com/setup_19.x | sudo -E bash - 
 fi
 
-# make sure node & npm is installed
+# Install NodeJS and NPM
 if ( which node ) 
 then
-  echo -e "\n==== Node already installed ===="
+  echo -e "\n==== NodeJS installed ====\n"
 else 
-  echo -e "\n==== Installing Nodejs && npm ===="
+  echo -e "\n==== Installing NodeJS && NPM ====\n"
   sudo apt install -y nodejs
 fi
 
-# install npm and its dependencies
+# Install NPM and its dependencies
 if [ -d node_modules ] 
 then
-  echo -e "\n==== Node_modules already installed ===="
+  echo -e "\n==== Node_modules installed ====\n"
 else 
   echo -e "\n==== Installing node_modules ====\n"
   npm install
 fi
 
-# run npm build
+# Run NPM build
 if [ -d build ] 
 then
-  echo -e "\n==== Npm run build complete ===="
+  echo -e "\n==== NPM build complete ====\n"
 else 
-  echo -e "\n==== Running npm build ===="
+  echo -e "\n==== Running NPM build ====\n"
   npm run build
 fi
 
-# copy service and reload daemon
+# Copy service file and reload daemon
 if [ -f /lib/systemd/system/crownapp.service ] 
 then
-  echo -e "\n==== Service file already exists ===="
+  echo -e "\n==== Service file present ====\n"
 else 
-  echo -e "\n==== Copying crownapp.service ===="
+  echo -e "\n==== Copying crownapp.service ====\n"
   sudo cp crownapp.service /lib/systemd/system/ && sudo systemctl daemon-reload
 fi
 
 
-# start the crownapp service
+# Restart the crownapp service
 if ( systemctl is-active crownapp.service ) 
 then
-  echo -e "\n==== Crown app is running ===="
+  echo -e "\n==== Crownapp running ====\n"
 else 
-  echo -e "\n==== Starting crownapp ===="
+  echo -e "\n==== Starting crownapp ====\n"
   sudo systemctl restart crownapp.service
 fi
 
@@ -64,22 +68,3 @@ echo "  /    \  \/ \_  __ \ /  _ \ \ \/ \/ / /    \   /  /_\  \ \____ \ \____ \ 
 echo "  \     \____ |  | \/(  <_> ) \     / |   |  \ /    |    \|  |_> >|  |_> > / __ \_ |  | \/\  ___/ |  |__ "
 echo "   \______  / |__|    \____/   \/\_/  |___|  / \____|__  /|   __/ |   __/ (____  / |__|    \___  >|____/ "
 echo "          \/                               \/          \/ |__|    |__|         \/              \/        "
-
-
-# sudo curl http://192.168.64.9:3000
-
-# show that the app is running through the ip address
-
-# hostname -i
-
-# and curl ip
-
-# write a system d service that runs the app and enables it, how to write systemd for node
-
-# make sure node setup is installed
-
-
-
-
-
-

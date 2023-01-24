@@ -1,71 +1,50 @@
-# Getting Started with Create React App
+# For Mac users exclusively, after successfully cloning the application from its Github repository:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<br>
 
-## Available Scripts
+## Set firebase configuration
+---
 
-In the project directory, you can run:
+To replace the config variable in firebase.utils.js with your own configuration object, go to your Firebase project dashboard and select the gear icon for project settings. Scroll down to the config code section, copy the entire object and paste it in the corresponding variable in your code. This will allow you to use your own Firebase configuration in your application.
 
-### `npm start`
+[firebase website](https://firebase.google.com/)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+<br>
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Set stripe demo payment configuration
+---
 
-### `npm test`
+To set up the Stripe demo payment configuration in the crown-apparel directory, create a .env file and include two variables:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+`REACT_APP_STRIPE_PUBLISHABLE_KEY=`
 
-### `npm run build`
+`STRIPE_SECRET_KEY=`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<br>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Obtain the publishable and secret keys from the developer test mode on the Stripe website and add them to the .env file in double quotes as strings, without any spaces. This will allow the application to use the Stripe test keys for demonstration purposes.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+[stripe website](https://stripe.com/)
 
-### `npm run eject`
+<br>
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## To deploy the Crown App from localhost, follow these steps:
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+* Open the terminal and navigate to the crown-apparel directory.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+* Open the cloud-config.yaml file and replace the hard-coded name with your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+* In the terminal, run the command `bash deploy.sh`
 
-## Learn More
+* When prompted, enter your computer password
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+* Wait for the multipass virtual machine to be created, the app to be configured, and deployed. Once completed, enter the IP address listed followed by :3000 in a browser to view the application running.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+* When you are finished using the app, type "exit" into the virtual machine command prompt.
 
-### Code Splitting
+<br>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## To delete the virtual machine and all its contents of the Crown App from localhost:
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Run the command `bash destroy.sh` in your local terminal.
