@@ -19,7 +19,7 @@ then
   echo -e "\n==== NodeJS installed ====\n"
 else 
   echo -e "\n==== Installing NodeJS && NPM ====\n"
-  sudo apt install -y nodejs
+  sudo apt install -y nodejs npm
 fi
 
 # Install NPM and its dependencies
@@ -58,6 +58,7 @@ else
   echo -e "\n==== Starting crownapp ====\n"
   sudo systemctl restart crownapp.service
 fi
+
 
 echo -e "\n==== Install complete ====\n"
 

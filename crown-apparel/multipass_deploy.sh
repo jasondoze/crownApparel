@@ -68,7 +68,7 @@ rsync -av -e "ssh -o StrictHostKeyChecking=no -i ./id_ed25519" --delete --exclud
 
 # Use SSH to execute commands on the remote VM
 echo -e "\n==== Executing install script ====\n"
-ssh -o StrictHostKeyChecking=no -i ./id_ed25519 jason@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | awk '{print $2}') 'cd ~/crown-apparel && bash install.sh'  
+ssh -o StrictHostKeyChecking=no -i ./id_ed25519 jason@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | awk '{print $2}') 'cd ~/crown-apparel && bash multipass_install.sh'  
 
 # SSH into VM
 echo -e "\n==== SSH into VM ====\n"
