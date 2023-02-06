@@ -108,9 +108,9 @@ docker stop $(docker ps -q)
 
 
 Docker caches each command in a Dockerfile to make builds faster. When you make changes to a Dockerfile, you need to clear the cache to build the new image. Try using the --no-cache option with the docker build command. For example:
-docker build --no-cache -t myimage .
-docker build --no-cache --platform linux/amd64 -t doze-nginx .
-docker build -f /home/jason/crown-apparel/Dockerfile --no-cache --platform linux/amd64 -t doze-nginx .
+docker build -t myimage .
+docker build  --platform linux/amd64 -t doze-nginx .
+
 
 You can use the docker system prune command with the --all option to remove all unused data, including cache data. This command will remove all stopped containers, unused networks, and build cache data. Note that this will also remove any unused images and volumes, so use it with caution.
 For example:
@@ -118,6 +118,18 @@ docker system prune --all
 
 You add a CACHEBUST argument to your Dockerfile at the location you want to enforce a rebuild. Now, you can build the Docker image and provide an always different value that causes all following commands to rerun:
 docker build -t my-custom-nginx --build-arg CACHEBUST=$(date +%s) .
+
+The -p option maps a host port to a container port. In this case, you are mapping the host port 3000 to the container port 80. The -d option runs the container in the background and prints the container ID.
+docker run -p 80:80 -d doze-nginx
+
+For certain npm packages to run, we also need to run the command below
+sudo apt install build-essential.
+
+sudo docker inspect doze-nginx | grep -w 'IPAddress'
+
+
+
+
 
 
 

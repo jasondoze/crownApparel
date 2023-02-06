@@ -13,3 +13,7 @@ $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev
 echo -e "\n==== Installing Docker engine and updating apt package ====\n"
 sudo apt-get update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+# Build the docker image
+echo -e "\n==== Building Docker image ====\n"
+sudo docker build --platform linux/amd64 -t doze-nginx .
