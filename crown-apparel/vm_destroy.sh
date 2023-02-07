@@ -2,6 +2,11 @@
 
 # This script carries out the following actions: terminating the virtual machine, removing the SSH key pair, and removing the virtual machine's fingerprint from the known host file.
 
+# Delete Docker image
+echo -e "\n==== Delete and purge images ====\n"
+ssh -o StrictHostKeyChecking=no -i ./id_ed25519 jason@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' |  awk '{print $2}') 'docker rm -f $(docker ps -a -q) && sudo docker system prune --all -y' 
+
+# Delete fingerprint from known_hosts
 if ( ssh-keygen -H -F $(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | awk '{print $2}') ) 
 then
   echo -e "\n==== Deleting fingerprint from known host ====\n"

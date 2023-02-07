@@ -35,7 +35,7 @@ Obtain the publishable and secret keys from the developer test mode on the Strip
 
 * Open the cloud-config.yaml file and replace the hard-coded name with your own.
 
-* In the terminal, run the command `bash deploy.sh`
+* In the terminal, run the command `bash vm_deploy.sh`
 
 * When prompted, enter your computer password
 
@@ -47,4 +47,7 @@ Obtain the publishable and secret keys from the developer test mode on the Strip
 
 ## To delete the virtual machine and all its contents of the Crown App from localhost:
 
-Run the command `bash destroy.sh` in your local terminal.
+Run the command `bash vm_destroy.sh` in your local terminal.
+
+
+![structure](./crown-apparel/DockerImg.png)

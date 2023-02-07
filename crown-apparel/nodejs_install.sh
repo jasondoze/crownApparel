@@ -5,7 +5,7 @@
 echo -e "\n==== Beginning install ====\n"
 
 # Install NodeJS setup
-if ( apt-cache show nodejs ) 
+if ( which nodejs > /dev/null; ) 
 then
   echo -e "\n==== NodeJS setup present ====\n"
 else 
@@ -19,7 +19,8 @@ then
   echo -e "\n==== NodeJS installed ====\n"
 else 
   echo -e "\n==== Installing NodeJS && NPM ====\n"
-  sudo apt install -y nodejs
+  sudo apt install -y nodejs  
+  sudo apt install -y npm
 fi
 
 # Install NPM and its dependencies
@@ -28,7 +29,8 @@ then
   echo -e "\n==== Node_modules installed ====\n"
 else 
   echo -e "\n==== Installing node_modules ====\n"
-  npm install
+  sudo npm install -g npm@latest
+  sudo npm install react-scripts
 fi
 
 # Run NPM build
@@ -37,9 +39,15 @@ then
   echo -e "\n==== NPM build complete ====\n"
 else 
   echo -e "\n==== Running NPM build ====\n"
-  npm run build
+  sudo npm i update-browserslist-db
+  sudo npm run build 
+  
 fi
 
+echo -e "\n==== Run react app ====\n"
+sudo npm start
+
+<<pause
 # Copy service file and reload daemon
 if [ -f /lib/systemd/system/crownapp.service ] 
 then
@@ -58,6 +66,7 @@ else
   echo -e "\n==== Starting crownapp ====\n"
   sudo systemctl restart crownapp.service
 fi
+pause
 
 echo -e "\n==== Install complete ====\n"
 

@@ -1,0 +1,136 @@
+Installing a Prebuilt Ubuntu Package from the Official NGINX Repository
+Install the prerequisites:
+
+sudo apt install curl gnupg2 ca-certificates lsb-release ubuntu-keyring
+Import an official nginx signing key so apt could verify the packages authenticity. Fetch the key:
+
+curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor \
+| sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
+Verify that the downloaded file contains the proper key:
+
+gpg --dry-run --quiet --no-keyring --import --import-options import-show /usr/share/keyrings/nginx-archive-keyring.gpg
+The output should contain the full fingerprint 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 as follows:
+
+pub   rsa2048 2011-08-19 [SC] [expires: 2024-06-14]
+  573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
+uid                      nginx signing key <signing-key@nginx.com>
+If the fingerprint is different, remove the file.
+
+To set up the apt repository for stable nginx packages, run the following command:
+
+echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
+http://nginx.org/packages/ubuntu `lsb_release -cs` nginx" \
+    | sudo tee /etc/apt/sources.list.d/nginx.list
+If you would like to use mainline nginx packages, run the following command instead:
+
+echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
+http://nginx.org/packages/mainline/ubuntu `lsb_release -cs` nginx" \
+    | sudo tee /etc/apt/sources.list.d/nginx.list
+Set up repository pinning to prefer our packages over distribution-provided ones:
+
+echo -e "Package: *\nPin: origin nginx.org\nPin: release o=nginx\nPin-Priority: 900\n" \
+    | sudo tee /etc/apt/preferences.d/99nginx
+Install NGINX Open Source:
+
+sudo apt update
+sudo apt install nginx
+Start NGINX Open Source:
+
+sudo nginx
+Verify that NGINX Open Source is up and running:
+
+curl -I 127.0.0.1
+HTTP/1.1 200 OK
+Server: nginx/1.23.2
+
+you should know how to do both, so let's do hard way first. I want you to write bash script that installs nginx by following their docs here:
+
+https://docs.nginx.com/nginx/admin-guide/installing-nginx/installing-nginx-open-source/#installing-prebuilt-ubuntu-packages
+docs.nginx.comdocs.nginx.com
+Installing NGINX Open Source
+Install NGINX Open Source either as a prebuilt package or from source, following step-by-step instructions for all supported Linux distributions.
+
+sudo apt install curl gnupg2 ca-certificates lsb-release ubuntu-keyring
+
+then I want you to build a docker container where you run your script to install nginx in the dockerfile and demonstrate that nginx is running in the container by curling from the host machine localhost and doing the port setup 80:80 when you run docker
+
+you may need to reference the official docker container for nginx to compare
+
+https://github.com/nginxinc/docker-nginx/blob/master/stable/debian/Dockerfile
+Dockerfile
+#
+# NOTE: THIS DOCKERFILE IS GENERATED VIA "update.sh"
+#
+# PLEASE DO NOT EDIT IT DIRECTLY.
+#
+
+<https://github.com/nginxinc/docker-nginx|nginxinc/docker-nginx>nginxinc/docker-nginx | Added by GitHub
+
+that's a doozy ^ will take you a while to read through
+
+
+can you install nginx on ubuntu following their docs?
+
+can you write a script that is the nginx install following their docs?
+
+can you run your nginx install script in a Dockerfile and build?
+
+can you get the same thing yourself that the nginx:latest container is providing?
+
+it's like walk -> jog -> run (edited) 
+ 
+
+ 
+
+
+ubuntu is just debian with different packages and GUI isntalled
+
+you should start to know the various linux distrobutions and their difference
+
+Open Docker locally
+open /Applications/Docker.app
+
+Build docker image
+docker build -t doze-nginx .
+docker build --no-cache --platform linux/amd64 -t doze-nginx .
+
+ => => writing image sha256:075f1ac2e438cc04d3d5a30f7c1a8593debac39919e0aa011e588edbf012e3cc                                                                                              0.0s 
+ => => naming to docker.io/library/doze-nginx             
+
+To run this container, use docker run with the -p flag to map the host's port to the container's port
+docker run -p 80:80  -d doze-nginx 
+
+Delete all containers using the following command: 
+docker rm -f $(docker ps -a -q)
+
+Stop all the containers with:
+docker stop $(docker ps -q)
+
+
+Docker caches each command in a Dockerfile to make builds faster. When you make changes to a Dockerfile, you need to clear the cache to build the new image. Try using the --no-cache option with the docker build command. For example:
+docker build -t myimage .
+docker build  --platform linux/amd64 -t doze-nginx .
+
+
+You can use the docker system prune command with the --all option to remove all unused data, including cache data. This command will remove all stopped containers, unused networks, and build cache data. Note that this will also remove any unused images and volumes, so use it with caution.
+For example:
+docker system prune --all
+
+You add a CACHEBUST argument to your Dockerfile at the location you want to enforce a rebuild. Now, you can build the Docker image and provide an always different value that causes all following commands to rerun:
+docker build -t my-custom-nginx --build-arg CACHEBUST=$(date +%s) .
+
+The -p option maps a host port to a container port. In this case, you are mapping the host port 3000 to the container port 80. The -d option runs the container in the background and prints the container ID.
+docker run -p 80:80 -d doze-nginx
+
+For certain npm packages to run, we also need to run the command below
+sudo apt install build-essential.
+
+sudo docker inspect doze-nginx | grep -w 'IPAddress'
+
+
+
+
+
+
+
+
