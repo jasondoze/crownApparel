@@ -1,6 +1,6 @@
 #!bin/bash
 
-# This script performs the following tasks: installing application dependencies, building the application, transferring the systemd service file, and restarting the service.
+# This script checks if NodeJS setup, NodeJS and NPM, and node_modules are installed and if not, it installs them. The code also checks if the NPM build has been completed, and if not, runs the NPM build.
 
 echo -e "\n==== Beginning install ====\n"
 
@@ -29,8 +29,7 @@ then
   echo -e "\n==== Node_modules installed ====\n"
 else 
   echo -e "\n==== Installing node_modules ====\n"
-  sudo npm install -g npm@latest
-  sudo npm install react-scripts
+  npx update-browserslist-db@latest
 fi
 
 # Run NPM build
@@ -39,15 +38,11 @@ then
   echo -e "\n==== NPM build complete ====\n"
 else 
   echo -e "\n==== Running NPM build ====\n"
-  sudo npm i update-browserslist-db
   sudo npm run build 
   
 fi
 
-echo -e "\n==== Run react app ====\n"
-sudo npm start
-
-<<pause
+<<notForDocker
 # Copy service file and reload daemon
 if [ -f /lib/systemd/system/crownapp.service ] 
 then
@@ -66,7 +61,7 @@ else
   echo -e "\n==== Starting crownapp ====\n"
   sudo systemctl restart crownapp.service
 fi
-pause
+notForDocker
 
 echo -e "\n==== Install complete ====\n"
 
