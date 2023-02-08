@@ -35,6 +35,10 @@ Obtain the publishable and secret keys from the developer test mode on the Strip
 
 * Open the cloud-config.yaml file and replace the hard-coded name with your own.
 
+* Change the path on line 75 in vm_deploy.sh to /home/yourname
+
+* If preferred, change line 82 in vm_deploy.sh to yourname-docker
+
 * In the terminal, run the command `bash vm_deploy.sh`
 
 * When prompted, enter your computer password

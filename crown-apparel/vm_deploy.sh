@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script facilitates the deployment process by performing the following actions: installing necessary dependencies, creating a virtual machine, transferring files to the virtual machine, executing an installation script within the virtual machine, and accessing the virtual machine via SSH
+# This script automates the installation, setup and deployment of a virtual machine named "crownapp". It first installs required software such as Homebrew, gSed, and Multipass. Then it creates an SSH key pair, adds the public key to a cloud config file, and launches a Multipass VM. The script then transfers necessary files to the VM, installs Docker and runs a Docker container on the remote machine. Finally, it uses SSH to login to the VM.
 
 echo "==== Begin crownapp deploy ===="
 
@@ -34,18 +34,14 @@ else
   brew install multipass
 fi
 
-# Install docker for local image build
-if ( which docker > /dev/null )
-then 
-  echo -e "\n==== Docker installed ====\n"
-else
-  echo -e "\n==== Installing and opening Docker desktop ====\n"
-  brew install docker
-fi
-
-# Open Docker desktop
-echo -e "\n==== Opening docker ====\n"
-open /Applications/Docker.app
+# # Install docker for local image build
+# if ( which docker > /dev/null )
+# then 
+#   echo -e "\n==== Docker installed ====\n"
+# else
+#   echo -e "\n==== Installing and opening Docker desktop ====\n"
+#   brew install docker
+# fi
 
 # Create an SSH key pair
 if [ -f id_ed25519 ]
@@ -71,19 +67,19 @@ then
   echo -e "\n==== Crownapp VM present ====\n"
 else 
   echo -e "\n==== Creating crownapp VM ====\n"
-multipass launch --cpus 4 --mem 7G --disk 50G --name crownapp --cloud-init cloud-config.yaml
+multipass launch --cpus 4 --memory 7G --disk 50G --name crownapp --cloud-init cloud-config.yaml jammy
 fi 
 
 # Copy necessary files to production deploy using Rsync
 echo -e "\n==== Transferring files to VM ====\n"
 rsync -av -e "ssh -o StrictHostKeyChecking=no -i ./id_ed25519" --delete --exclude={'crownapp.service','.netlify*','build','node_modules','.git','.gitignore','id_ed25519*','cloud-config.yaml'} $(pwd) jason@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | awk '  {print $2}'):/home/jason 
 
-# Use SSH to execute commands on the remote VM
+# Use SSH to install Docker on the remote VM
 echo -e "\n==== Executing install script ====\n"
 ssh -o StrictHostKeyChecking=no -i ./id_ed25519 jason@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' |  awk '{print $2}') 'cd crown-apparel && bash docker_install.sh'
 
-# Use SSH to execute commands on the remote VM
-ssh -o StrictHostKeyChecking=no -i ./id_ed25519 jason@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | awk '{print $2}') 'cd crown-apparel && sudo docker run -p 3000:3000 -p 80:80 -d doze-nginx'
+# Use SSH to build Docker image and run the crownapp container on the remote VM
+ssh -o StrictHostKeyChecking=no -i ./id_ed25519 jason@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | awk '{print $2}') 'cd crown-apparel && sudo docker build -t doze-docker . && sudo docker run -d -p 3000:3000 doze-docker'
 
 # SSH into VM
 echo -e "\n==== SSH into VM ====\n"
