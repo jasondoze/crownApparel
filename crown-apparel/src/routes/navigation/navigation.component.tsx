@@ -11,12 +11,7 @@ import { signOutStart } from '../../store/user/user.action';
 
 import { ReactComponent as CrwnLogo } from '../../assets/crown.svg';
 
-import {
-  NavigationContainer,
-  NavLinks,
-  NavLink,
-  LogoContainer,
-} from './navigation.styles';
+import { NavigationContainer, NavLinks, NavLink, LogoContainer } from './navigation.styles';
 
 const Navigation = () => {
   const dispatch = useDispatch();

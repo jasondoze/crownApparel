@@ -12,21 +12,11 @@ import {
   User,
   NextOrObserver,
 } from 'firebase/auth';
-import {
-  getFirestore,
-  doc,
-  getDoc,
-  setDoc,
-  collection,
-  writeBatch,
-  query,
-  getDocs,
-  QueryDocumentSnapshot,
-} from 'firebase/firestore';
+import { getFirestore, doc, getDoc, setDoc, collection, writeBatch, query, getDocs, QueryDocumentSnapshot } from 'firebase/firestore';
 
 import { Category } from '../../store/categories/category.types';
 
-//webb app Firebase configuration
+/* webb app Firebase configuration 
 const firebaseConfig = {
   apiKey: 'AIzaSyDTt8p7Fauq7oU1r_6QJdCK8xSyXs_-cIY',
   authDomain: 'crown-apparel-c5bff.firebaseapp.com',
@@ -35,10 +25,37 @@ const firebaseConfig = {
   messagingSenderId: '806289779098',
   appId: '1:806289779098:web:edc1e9e796edf511bfb223',
 };
+*/
+
+try {
+  const firebaseConfig = {
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  };
+  const firebaseApp = initializeApp(firebaseConfig);
+  console.log(firebaseApp);
+} catch (error) {
+  console.log('Firebase initialization error:', error);
+}
+
+/*
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+};
 
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 console.log(firebaseApp);
+*/
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -47,10 +64,8 @@ googleProvider.setCustomParameters({
 });
 
 export const auth = getAuth();
-export const signInWithGooglePopup = () =>
-  signInWithPopup(auth, googleProvider);
-export const signInWithGoogleRedirect = () =>
-  signInWithRedirect(auth, googleProvider);
+export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider);
+export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googleProvider);
 
 export const db = getFirestore();
 
@@ -58,10 +73,7 @@ export type ObjectToAdd = {
   title: string;
 };
 
-export const addCollectionAndDocuments = async <T extends ObjectToAdd>(
-  collectionKey: string,
-  objectsToAdd: T[]
-): Promise<void> => {
+export const addCollectionAndDocuments = async <T extends ObjectToAdd>(collectionKey: string, objectsToAdd: T[]): Promise<void> => {
   const collectionRef = collection(db, collectionKey);
   const batch = writeBatch(db);
 
@@ -79,9 +91,7 @@ export const getCategoriesAndDocuments = async (): Promise<Category[]> => {
   const q = query(collectionRef);
 
   const querySnapshot = await getDocs(q);
-  return querySnapshot.docs.map(
-    (docSnapshot) => docSnapshot.data() as Category
-  );
+  return querySnapshot.docs.map((docSnapshot) => docSnapshot.data() as Category);
 };
 
 export type AdditionalInformation = {
@@ -94,10 +104,7 @@ export type UserData = {
   email: string;
 };
 
-export const createUserDocumentFromAuth = async (
-  userAuth: User,
-  additionalInformation = {} as AdditionalInformation
-): Promise<void | QueryDocumentSnapshot<UserData>> => {
+export const createUserDocumentFromAuth = async (userAuth: User, additionalInformation = {} as AdditionalInformation): Promise<void | QueryDocumentSnapshot<UserData>> => {
   if (!userAuth) return;
 
   const userDocRef = doc(db, 'users', userAuth.uid);
@@ -123,19 +130,13 @@ export const createUserDocumentFromAuth = async (
   return userSnapshot as QueryDocumentSnapshot<UserData>;
 };
 
-export const createAuthUserWithEmailAndPassword = async (
-  email: string,
-  password: string
-) => {
+export const createAuthUserWithEmailAndPassword = async (email: string, password: string) => {
   if (!email || !password) return;
 
   return await createUserWithEmailAndPassword(auth, email, password);
 };
 
-export const signInAuthUserWithEmailAndPassword = async (
-  email: string,
-  password: string
-) => {
+export const signInAuthUserWithEmailAndPassword = async (email: string, password: string) => {
   if (!email || !password) return;
 
   return await signInWithEmailAndPassword(auth, email, password);
@@ -143,8 +144,7 @@ export const signInAuthUserWithEmailAndPassword = async (
 
 export const signOutUser = async () => await signOut(auth);
 
-export const onAuthStateChangedListener = (callback: NextOrObserver<User>) =>
-  onAuthStateChanged(auth, callback);
+export const onAuthStateChangedListener = (callback: NextOrObserver<User>) => onAuthStateChanged(auth, callback);
 
 export const getCurrentUser = (): Promise<User | null> => {
   return new Promise((resolve, reject) => {

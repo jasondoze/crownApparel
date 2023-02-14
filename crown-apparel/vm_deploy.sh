@@ -72,14 +72,14 @@ fi
 
 # Copy necessary files to production deploy using Rsync
 echo -e "\n==== Transferring files to VM ====\n"
-rsync -av -e "ssh -o StrictHostKeyChecking=no -i ./id_ed25519" --delete --exclude={'crownapp.service','.netlify*','build','node_modules','.git','.gitignore','id_ed25519*','cloud-config.yaml'} $(pwd) jason@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | awk '  {print $2}'):/home/jason 
+rsync -av -e "ssh -o StrictHostKeyChecking=no -i ./id_ed25519" --delete --exclude={'crownapp.service','netlify/','node_modules','.git','.gitignore','id_ed25519*','cloud-config.yaml'} $(pwd) jason@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | awk '  {print $2}'):/home/jason 
 
 # Use SSH to install Docker on the remote VM
 echo -e "\n==== Executing install script ====\n"
 ssh -o StrictHostKeyChecking=no -i ./id_ed25519 jason@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' |  awk '{print $2}') 'cd crown-apparel && bash docker_install.sh'
 
 # Use SSH to build Docker image and run the crownapp container on the remote VM
-ssh -o StrictHostKeyChecking=no -i ./id_ed25519 jason@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | awk '{print $2}') 'cd crown-apparel && sudo docker build -t doze-docker . && sudo docker run -d -p 3000:3000 doze-docker'
+ssh -o StrictHostKeyChecking=no -i ./id_ed25519 jason@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | awk '{print $2}') 'cd crown-apparel && sudo docker build -t crown-apparel-image . && sudo docker run -d -p 3000:3000 --env-file .env --name crown-apparel-container crown-apparel-image'
 
 # SSH into VM
 echo -e "\n==== SSH into VM ====\n"

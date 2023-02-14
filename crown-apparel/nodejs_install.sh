@@ -20,16 +20,16 @@ then
 else 
   echo -e "\n==== Installing NodeJS && NPM ====\n"
   sudo apt install -y nodejs  
-  sudo apt install -y npm
+  sudo npm install npm
 fi
 
-# Install NPM and its dependencies
+# Install NPM dependencies
 if [ -d node_modules ] 
 then
   echo -e "\n==== Node_modules installed ====\n"
 else 
   echo -e "\n==== Installing node_modules ====\n"
-  npx update-browserslist-db@latest
+  npm install
 fi
 
 # Run NPM build
@@ -38,7 +38,7 @@ then
   echo -e "\n==== NPM build complete ====\n"
 else 
   echo -e "\n==== Running NPM build ====\n"
-  sudo npm run build 
+  npm run build 
   
 fi
 
