@@ -72,7 +72,7 @@ fi
 
 # Copy necessary files to production deploy using Rsync
 echo -e "\n==== Transferring files to VM ====\n"
-rsync -av -e "ssh -o StrictHostKeyChecking=no -i ./id_ed25519" --delete --exclude={'crownapp.service','.netlify*','build','node_modules','.git','.gitignore','id_ed25519*','cloud-config.yaml'} $(pwd) jason@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | awk '  {print $2}'):/home/jason 
+rsync -av -e "ssh -o StrictHostKeyChecking=no -i ./id_ed25519" --delete --exclude={'crownapp.service','.netlify*','build','node_modules','.git','.gitignore','id_ed25519*','cloud-config.yaml'} $(pwd) jason@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | awk '  {print $2}'):$HOME
 
 # Use SSH to install Docker on the remote VM
 echo -e "\n==== Executing install script ====\n"
