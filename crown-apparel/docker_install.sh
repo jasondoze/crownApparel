@@ -15,7 +15,7 @@ fi
 # Set up the Docker repository
 if [ -f /etc/apt/sources.list.d/docker.list ]
 then
-  echo -e "\n==== Docker repository  present ====\n"
+  echo -e "\n==== Docker repository present ====\n"
 else
   echo -e "\n==== Creating Docker repository ====\n"
   echo \

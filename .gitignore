@@ -203,4 +203,6 @@ id_*
 
 notes.md
 
-.png 
+cloud-init.yaml
+
+*.png 

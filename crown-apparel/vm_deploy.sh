@@ -52,13 +52,21 @@ else
   ssh-keygen -t ed25519 -N '' -f ./id_ed25519
 fi
 
-# Add public key to cloud config yaml
-if ( cat cloud-config.yaml | grep "$(cat id_ed25519.pub)" )
+# Write out cloud-init yaml file to create for user and keys
+if [ -f cloud-init.yaml ]
 then 
-  echo -e "\n==== SSH key present ====\n"
+  echo -e "\n==== Cloud-init.yaml is present ====\n"
 else
-  echo -e "\n==== Adding SSH key to cloud init  ====\n"
-  gsed -i "/ssh-ed25519/c\      - $(cat id_ed25519.pub)" cloud-config.yaml
+  echo -e "\n==== Writing cloud-init.yaml  ====\n"
+  cat <<- EOF > cloud-init.yaml
+users:
+  - default
+  - name: $USER
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - $(cat id_ed25519.pub)
+EOF
 fi
 
 # Launch multipass VM named crownapp using cloud-init yaml file
@@ -67,12 +75,12 @@ then
   echo -e "\n==== Crownapp VM present ====\n"
 else 
   echo -e "\n==== Creating crownapp VM ====\n"
-multipass launch --cpus 4 --memory 7G --disk 50G --name crownapp --cloud-init cloud-config.yaml jammy
+multipass launch --cpus 4 --memory 7G --disk 50G --name crownapp --cloud-init cloud-init.yaml jammy
 fi 
 
 # Copy necessary files to production deploy using Rsync
 echo -e "\n==== Transferring files to VM ====\n"
-rsync -av -e "ssh -o StrictHostKeyChecking=no -i ./id_ed25519" --delete --exclude={'crownapp.service','.netlify*','build','node_modules','.git','.gitignore','id_ed25519*','cloud-config.yaml'} $(pwd) $USER@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | awk '{print $2}'):/home/$USER
+rsync -av -e "ssh -o StrictHostKeyChecking=no -i ./id_ed25519" --delete --exclude={'crownapp.service','.netlify*','build','node_modules','.git','.gitignore','id_ed25519*','cloud-init.yaml'} $(pwd) $USER@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | awk '{print $2}'):/home/$USER
 
 # Use SSH to install Docker on the remote VM
 echo -e "\n==== Executing install script ====\n"

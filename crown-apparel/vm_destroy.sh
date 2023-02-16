@@ -20,6 +20,15 @@ else
   echo -e "\n==== VM does not exist ====\n"
 fi 
 
+# Delete the cloud-init.yaml file
+if [ -f cloud-init.yaml ]
+then 
+  echo -e "\n==== Deleting cloud-init.yaml file ====\n"
+  rm cloud-init.yaml
+else
+  echo -e "\n==== Cloud-init.yaml not present ====\n"
+fi
+
 # Delete the SSH key pair
 if [ -f id_ed25519 ]
 then 

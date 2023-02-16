@@ -1,8 +1,0 @@
-users:
-  - default
-  - name: jasondoze
-    sudo: ALL=(ALL) NOPASSWD:ALL
-    shell: /bin/bash
-    ssh_authorized_keys:
-      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIARVnWyu7iCXAsU+A4JAtkDJMK6dxrlQi0DIZ+t3Im+d jasondoze@jd.attlocal.net
-      
