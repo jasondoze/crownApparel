@@ -2,7 +2,12 @@
 
 # This script checks if NodeJS setup, NodeJS and NPM, and node_modules are installed and if not, it installs them. The code also checks if the NPM build has been completed, and if not, runs the NPM build.
 
+
+
 echo -e "\n==== Beginning install ====\n"
+
+# Add executable permissions to the script
+chmod +x nodejs_install.sh
 
 # Install NodeJS setup
 if ( which nodejs > /dev/null; ) 
@@ -23,6 +28,35 @@ else
   sudo npm install npm
 fi
 
+# Install local tunnel
+if ( which /usr/bin/lt > /dev/null; )
+then 
+  echo -e "\n==== LT installed ====\n"
+else 
+  echo -e "\n==== Installing LT ====\n"
+  sudo npm install -g localtunnel
+fi
+
+# Start the local tunnel on port 3000 and capture the output in a file
+lt --port 3000 --print-requests > lt_output.txt 2>&1 &
+
+# Wait for the local tunnel to start and capture the output
+sleep 10
+output=$(grep -E -o 'https://[[:alnum:]-]+\.loca\.lt' lt_output.txt)
+
+# Check if the URL was found
+if [[ $output ]]
+then
+  echo -e "\n==== LT_URL found $output updating variable in .env ====\n"
+  # sed -i "s|^LT_URL=.*$|LT_URL=$output|" .env
+  # sed -i "/^LT_URL=/s|=.*$|=$output|" .env
+  # sed -i "s/^LT_URL=https:\/\/[[:alnum:]-]+\.loca\.lt\..*$/LT_URL=$output/" .env
+  sed -i "s|^LT_URL=https://[[:alnum:]-]+\.loca\.lt\..*$|LT_URL=$output|" .env
+  echo -e "\n==== LT_URL variable has been updated in the .env file ====\n"
+else
+  echo -e "\n==== LT_URL not found ====\n"
+fi
+
 # Install NPM dependencies
 if [ -d node_modules ] 
 then
@@ -39,8 +73,8 @@ then
 else 
   echo -e "\n==== Running NPM build ====\n"
   npm run build 
-  
 fi
+
 
 <<notForDocker
 # Copy service file and reload daemon

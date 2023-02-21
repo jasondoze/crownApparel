@@ -16,17 +16,6 @@ import { getFirestore, doc, getDoc, setDoc, collection, writeBatch, query, getDo
 
 import { Category } from '../../store/categories/category.types';
 
-/* webb app Firebase configuration 
-const firebaseConfig = {
-  apiKey: 'AIzaSyDTt8p7Fauq7oU1r_6QJdCK8xSyXs_-cIY',
-  authDomain: 'crown-apparel-c5bff.firebaseapp.com',
-  projectId: 'crown-apparel-c5bff',
-  storageBucket: 'crown-apparel-c5bff.appspot.com',
-  messagingSenderId: '806289779098',
-  appId: '1:806289779098:web:edc1e9e796edf511bfb223',
-};
-*/
-
 try {
   const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -41,21 +30,6 @@ try {
 } catch (error) {
   console.log('Firebase initialization error:', error);
 }
-
-/*
-const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID,
-};
-
-// Initialize Firebase
-const firebaseApp = initializeApp(firebaseConfig);
-console.log(firebaseApp);
-*/
 
 const googleProvider = new GoogleAuthProvider();
 

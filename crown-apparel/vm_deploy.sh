@@ -67,7 +67,7 @@ then
   echo -e "\n==== Crownapp VM present ====\n"
 else 
   echo -e "\n==== Creating crownapp VM ====\n"
-multipass launch --cpus 4 --memory 7G --disk 50G --name crownapp --cloud-init cloud-config.yaml jammy
+  multipass launch --cpus 4 --memory 7G --disk 50G --name crownapp --cloud-init cloud-config.yaml jammy
 fi 
 
 # Copy necessary files to production deploy using Rsync
@@ -78,9 +78,26 @@ rsync -av -e "ssh -o StrictHostKeyChecking=no -i ./id_ed25519" --delete --exclud
 echo -e "\n==== Executing install script ====\n"
 ssh -o StrictHostKeyChecking=no -i ./id_ed25519 jason@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' |  awk '{print $2}') 'cd crown-apparel && bash docker_install.sh'
 
+# Check if the container exists
+if ( docker container ls --all --quiet --filter "name=crown-apparel-container" | grep . > /dev/null )
+then
+  echo -e "\n==== Deleting existing crown-apparel-container ====\n"
+  docker container stop crown-apparel-container
+  docker container rm crown-apparel-container
+else
+  echo -e "\n==== No crown-apparel-container exists ====\n"
+
+fi
+
+# Build and run the container
+ssh -o StrictHostKeyChecking=no -i ./id_ed25519 jason@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | awk '{print $2}') 'cd crown-apparel && sudo docker build -t crown-apparel-image . && sudo docker run -d -p 3000:3000 --env-file .env --name crown-apparel-container crown-apparel-image'
+
 # Use SSH to build Docker image and run the crownapp container on the remote VM
 ssh -o StrictHostKeyChecking=no -i ./id_ed25519 jason@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | awk '{print $2}') 'cd crown-apparel && sudo docker build -t crown-apparel-image . && sudo docker run -d -p 3000:3000 --env-file .env --name crown-apparel-container crown-apparel-image'
+
+# ssh -o StrictHostKeyChecking=no -i ./id_ed25519 jason@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | awk '{print $2}') 'cd crown-apparel && bash nodejs_install.sh'
 
 # SSH into VM
 echo -e "\n==== SSH into VM ====\n"
 ssh -o StrictHostKeyChecking=no -i ./id_ed25519 jason@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | awk '{print $2}')
+
