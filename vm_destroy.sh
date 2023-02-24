@@ -2,10 +2,6 @@
 
 # This script carries out the following actions: terminating the virtual machine, removing the SSH key pair, and removing the virtual machine's fingerprint from the known host file.
 
-# Delete Docker image
-echo -e "\n==== Delete and purge images ====\n"
-ssh -o StrictHostKeyChecking=no -i ./id_ed25519 jason@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' |  awk '{print $2}') 'docker rm -f $(docker ps -a -q) && sudo docker system prune --all -y' 
-
 # Delete fingerprint from known_hosts
 if ( ssh-keygen -H -F $(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | awk '{print $2}') ) 
 then
@@ -23,6 +19,15 @@ then
 else 
   echo -e "\n==== VM does not exist ====\n"
 fi 
+
+# Delete the cloud-init.yaml file
+if [ -f cloud-init.yaml ]
+then 
+  echo -e "\n==== Deleting cloud-init.yaml file ====\n"
+  rm cloud-init.yaml
+else
+  echo -e "\n==== Cloud-init.yaml not present ====\n"
+fi
 
 # Delete the SSH key pair
 if [ -f id_ed25519 ]
