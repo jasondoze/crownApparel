@@ -21,7 +21,6 @@ else
   echo -e "\n==== Installing NodeJS && NPM && Update Browserlist ====\n"
   sudo apt install -y nodejs  
   sudo apt install -y npm
-  sudo npx update-browserslist-db@latest
 fi
 
 # Install NPM and its dependencies
