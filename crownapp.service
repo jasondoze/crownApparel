@@ -5,8 +5,8 @@ After=network.target
 [Service]
 Environment=NODE_ENV=production
 Type=simple
-User=jason
-WorkingDirectory=/home/jason/crown-apparel/
+User=jasondoze
+WorkingDirectory=/home/jasondoze/crownAppTypescript/
 ExecStart=/usr/bin/npm start 
 Restart=on-failure
 

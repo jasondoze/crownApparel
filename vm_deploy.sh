@@ -71,7 +71,7 @@ fi
 
 # Copy necessary files to production deploy using Rsync
 echo -e "\n==== Transferring files to VM ====\n"
-rsync -av -e "ssh -o StrictHostKeyChecking=no -i ./id_ed25519" --delete --exclude={'crownapp.service','build','node_modules','.git','.gitignore','id_ed25519*','cloud-init.yaml'} $(pwd) $USER@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | awk '  {print $2}'):/home/$USER 
+rsync -av -e "ssh -o StrictHostKeyChecking=no -i ./id_ed25519" --delete --exclude={'build','node_modules','.git','.gitignore','id_ed25519*','cloud-init.yaml'} $(pwd) $USER@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | awk '  {print $2}'):/home/$USER 
 
 # Use SSH to execute commands on the remote VM
 echo -e "\n==== Executing install script ====\n"
