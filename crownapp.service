@@ -4,9 +4,10 @@ After=network.target
 
 [Service]
 Environment=NODE_ENV=production
+Environment=apiKey=$REACT_APP_FIREBASE_API_KEY
 Type=simple
-User=jasondoze
-WorkingDirectory=/home/jasondoze/crownAppTypescript/
+User=$HOME
+WorkingDirectory=/home/$HOME/crownAppTypescript/
 ExecStart=/usr/bin/npm start 
 Restart=on-failure
 
