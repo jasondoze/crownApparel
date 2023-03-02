@@ -22,7 +22,7 @@ To replace the config variable in firebase.utils.js with your own configuration 
 ## Set stripe demo payment configuration
 ---
 
-To set up the Stripe demo payment configuration in the crown-apparel directory, create a .env file and include two variables:
+To set up the Stripe demo payment configuration in the crown-apparel directory, create an .env file and include two variables:
 
 `REACT_APP_STRIPE_PUBLISHABLE_KEY=`
 
@@ -55,10 +55,6 @@ REACT_APP_FIREBASE_API_KEY=YOURFIREBASEAPIKEY npm start
 
 ## To deploy the Crown App to a local VM
 ---
-
-* Open the terminal and navigate to the crown-apparel directory.
-
-* Open the cloud-init.yaml file and replace the hard-coded name with your own.
 
 * In the terminal, run the command `bash vm_deploy.sh`
 
