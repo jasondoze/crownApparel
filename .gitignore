@@ -200,3 +200,5 @@ sketch
 id_*
 
 .DS_Store
+
+cloud-init.yaml
