@@ -5,9 +5,31 @@ See a running demo here.
 
 http.crownapparel.com
 
-# Local Development
+# Build and Deploy Locally
+Satisfy local dependencies
+  install nodejs
+  install npm
+
+Satisfy app dependencies
+  npm install
+  
+Build the app
+  npm run build
+
+Run the app
+  npm start
+
+Test the app
+  http://localhost:3000
+
+# Build and Deploy to Local VM
+
+# Build and Deploy to AWS or GCP
+
+# Build and Deploy using Netlify
 
 ## For Mac users exclusively, after successfully cloning the application from its Github repository:
+
 
 
 ## Set firebase configuration
@@ -16,6 +38,11 @@ http.crownapparel.com
 To replace the config variable in firebase.utils.js with your own configuration object, go to your Firebase project dashboard and select the gear icon for project settings. Scroll down to the config code section, copy the entire object and paste it in the corresponding variable in your code. This will allow you to use your own Firebase configuration in your application.
 
 [firebase website](https://firebase.google.com/)
+
+<br>
+
+## Set netlify serverless to enable stripe
+
 
 <br>
 
@@ -70,5 +97,3 @@ REACT_APP_FIREBASE_API_KEY=YOURFIREBASEAPIKEY npm start
 
 Run the command `bash vm_destroy.sh` in your local terminal.
 
-
-![structure](./crown-apparel/DockerImg.png)
