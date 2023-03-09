@@ -9,9 +9,17 @@ if ( which node > /dev/null; )
 then
   echo -e "\n==== NodeJS setup present ====\n"
 else 
-  echo -e "\n==== Installing NodeJS setup ====\n"
-  curl -fsSL https://deb.nodesource.com/setup_19.x | sudo -E bash - 
-  sudo apt install -y nodejs  
+  if [ "Darwin" == "$(uname -s)" ]
+  then
+    echo -e "You're on a Mac"
+  elif [ "Linux" == "$(uname -s)" ]
+  then
+      echo -e "\n==== Installing NodeJS setup ====\n"
+      curl -fsSL https://deb.nodesource.com/setup_19.x | sudo -E bash - 
+      sudo apt install -y nodejs  
+  else
+    echo -e "Unsupported platform"
+  fi
 fi
 
 # Install NPM
