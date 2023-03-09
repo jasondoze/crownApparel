@@ -1,48 +1,60 @@
-#!bin/bash
+#!/bin/bash
 
-# This script performs the following tasks: installing application dependencies, building the application, transferring the systemd service file, and restarting the service.
+# This script performs the following tasks: installing application dependencies on Darwin.
 
 echo -e "\n==== Beginning install ====\n"
 
-# Install NodeJS
-if ( which node > /dev/null; ) 
+# Check if system is a Mac
+if [ "Darwin" == "$(uname -s)" ]
 then
-  echo -e "\n==== NodeJS setup present ====\n"
-else 
-  if [ "Darwin" == "$(uname -s)" ]
+  # Install homebrew
+  if ( which brew > /dev/null ) 
   then
-    echo -e "You're on a Mac"
-  elif [ "Linux" == "$(uname -s)" ]
-  then
-      echo -e "\n==== Installing NodeJS setup ====\n"
-      curl -fsSL https://deb.nodesource.com/setup_19.x | sudo -E bash - 
-      sudo apt install -y nodejs  
-  else
-    echo -e "Unsupported platform"
+    echo -e "\n==== Brew installed ====\n"
+  else 
+    echo -e "\n==== Installing brew ====\n"
+    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   fi
-fi
 
-# Install NPM
-if ( which npm ) 
-then
-  echo -e "\n==== NodeJS installed ====\n"
-else 
-  echo -e "\n==== Installing NodeJS && NPM && Update Browserlist ====\n"
-  sudo apt install -y npm
-fi
+  # Install NodeJS on Mac
+  if ( which node > /dev/null; ) 
+  then
+    echo -e "\n==== NodeJS present ====\n"
+  else 
+    echo -e "\n==== Installing NodeJS ====\n"
+    brew install node 
+  fi
 
-# Install NPM and its dependencies
-if [ -d node_modules ] 
-then
-  echo -e "\n==== Node_modules installed ====\n"
-else 
-  echo -e "\n==== Installing node_modules ====\n"
-  npm install 
+  # Install multipass
+  if ( which multipass > /dev/null )
+  then 
+    echo -e "\n==== Multipass installed ====\n"
+  else
+    echo -e "\n==== Installing Multipass ====\n"
+    brew install multipass
+  fi
+
+  # Install NPM and its dependencies
+  if [ -d node_modules ] 
+  then
+    echo -e "\n==== Node_modules installed ====\n"
+  else 
+    echo -e "\n==== Installing node_modules ====\n"
+    npm install 
+  fi
+
+  npm start
+
+  echo -e "\n==== Local crownapp complete ====\n"
+
+else
+  # If user is not on a Mac system
+  echo -e "\n\033[31m You shall not pass!!!\033[0m\n"
 fi
 
 npm start
 
-echo -e "\n==== Install complete ====\n"
+echo -e "\n==== Local crownapp complete ====\n"
 
 echo "                                                                                                         "
 echo "  _________                                       _____                                           .__    "

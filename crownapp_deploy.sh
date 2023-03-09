@@ -1,66 +1,61 @@
-#!bin/bash
+#!/bin/bash
 
-# This script performs the following tasks: installing application dependencies, building the application, transferring the systemd service file, and restarting the service.
+# This script performs the following tasks: installing application dependencies on Darwin.
 
 echo -e "\n==== Beginning install ====\n"
 
-# Install NodeJS
-if ( which node > /dev/null; ) 
+# The default password prompt timeout for the sudoers security policy is 5 minutes
+sudo true
+
+# Check if system is a Mac
+if [ "Darwin" == "$(uname -s)" ]
 then
-  echo -e "\n==== NodeJS setup present ====\n"
-else 
-  echo -e "\n==== Installing NodeJS setup ====\n"
-  curl -fsSL https://deb.nodesource.com/setup_19.x | sudo -E bash - 
-  sudo apt install -y nodejs  
+
+
+  # Install homebrew
+  if ( which brew > /dev/null ) 
+  then
+    echo -e "\n==== Brew installed ====\n"
+  else 
+    echo -e "\n==== Installing brew ====\n"
+    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  fi
+
+  # Install NodeJS on Mac
+  if ( which node > /dev/null; ) 
+  then
+    echo -e "\n==== NodeJS present ====\n"
+  else 
+    echo -e "\n==== Installing NodeJS ====\n"
+    brew install node 
+  fi
+
+  # Install multipass
+  if ( which multipass > /dev/null )
+  then 
+    echo -e "\n==== Multipass installed ====\n"
+  else
+    echo -e "\n==== Installing Multipass ====\n"
+    brew install multipass
+  fi
+
+  # Install NPM and its dependencies
+  if [ -d node_modules ] 
+  then
+    echo -e "\n==== Node_modules installed ====\n"
+  else 
+    echo -e "\n==== Installing node_modules ====\n"
+    npm install 
+  fi
+
+  npm start
+
+  echo -e "\n==== Local crownapp complete ====\n"
+
+else
+  # If user is not on a Mac system
+  echo -e "\n\033[31m You shall not pass!!!\033[0m\n"
 fi
-
-# Install NPM
-if ( which npm ) 
-then
-  echo -e "\n==== NodeJS installed ====\n"
-else 
-  echo -e "\n==== Installing NodeJS && NPM && Update Browserlist ====\n"
-  sudo apt install -y npm
-fi
-
-# Install NPM and its dependencies
-if [ -d node_modules ] 
-then
-  echo -e "\n==== Node_modules installed ====\n"
-else 
-  echo -e "\n==== Installing node_modules ====\n"
-  npm install 
-fi
-
-# Run NPM build
-if [ -d build ] 
-then
-  echo -e "\n==== NPM build complete ====\n"
-else 
-  echo -e "\n==== Running NPM build ====\n"
- npm run build 
-fi
-
-# Copy service file and reload daemon
-if [ -f /lib/systemd/system/crownapp.service ] 
-then
-  echo -e "\n==== Service file present ====\n"
-else 
-  echo -e "\n==== Copying crownapp.service ====\n"
-  sudo cp crownapp.service /lib/systemd/system/ && sudo systemctl daemon-reload
-fi
-
-# Restart the crownapp service
-if ( systemctl is-active crownapp.service ) 
-then
-  echo -e "\n==== Crownapp running ====\n"
-else 
-  echo -e "\n==== Starting crownapp ====\n"
-  sudo systemctl restart crownapp.service
-fi
-
-
-echo -e "\n==== Install complete ====\n"
 
 echo "                                                                                                         "
 echo "  _________                                       _____                                           .__    "

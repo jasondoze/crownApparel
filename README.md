@@ -6,6 +6,7 @@ See a running demo here.
 http.crownapparel.com
 
 # Build and Deploy Locally
+`bash crownapp_local.sh`
 Satisfy local dependencies
   install nodejs
   install npm
@@ -23,6 +24,7 @@ Test the app
   http://localhost:3000
 
 # Build and Deploy to Local VM
+`bash crownapp_deploy.sh`
 
 # Build and Deploy to AWS or GCP
 
