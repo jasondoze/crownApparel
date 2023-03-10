@@ -8,13 +8,13 @@ echo "==== Begin crownapp deploy ===="
 sudo true
 
 # Install homebreww
-if ( which brew > /dev/null ) 
-then
-  echo -e "\n==== Brew installed ====\n"
-else 
-  echo -e "\n==== Installing brew ====\n"
-  NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-fi
+# if ( which brew > /dev/null ) 
+# then
+#   echo -e "\n==== Brew installed ====\n"
+# else 
+#   echo -e "\n==== Installing brew ====\n"
+#   NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# fi
 
 # Install gnu-sed
 if ( which gsed > /dev/null)
@@ -75,7 +75,7 @@ rsync -av -e "ssh -o StrictHostKeyChecking=no -i ./id_ed25519" --delete --exclud
 
 # Use SSH to execute commands on the remote VM
 echo -e "\n==== Executing install script ====\n"
-ssh -o StrictHostKeyChecking=no -i ./id_ed25519 $USER@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' |  awk '{print $2}') 'cd crownAppTypescript && bash nodejs_install.sh'
+ssh -o StrictHostKeyChecking=no -i ./id_ed25519 $USER@$(multipass info crownapp |  grep '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' |  awk '{print $2}') 'cd crownAppTypescript && bash crownapp_local.sh'
 
 # SSH into VM
 echo -e "\n==== SSH into VM ====\n"
