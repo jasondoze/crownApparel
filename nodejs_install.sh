@@ -5,23 +5,13 @@
 echo -e "\n==== Beginning install ====\n"
 
 # Install NodeJS setup
-if ( which nodejs > /dev/null; ) 
+if ( which node > /dev/null; ) 
 then
   echo -e "\n==== NodeJS setup present ====\n"
 else 
   echo -e "\n==== Installing NodeJS setup ====\n"
   curl -fsSL https://deb.nodesource.com/setup_19.x | sudo -E bash - 
-fi
-
-# Install NodeJS, NPM, and update browserslist-db@latest
-if ( which node ) 
-then
-  echo -e "\n==== NodeJS installed ====\n"
-else 
-  echo -e "\n==== Installing NodeJS && NPM && Update Browserlist ====\n"
   sudo apt install -y nodejs  
-  sudo apt install -y npm
-  sudo npx update-browserslist-db@latest
 fi
 
 # Install NPM and its dependencies
@@ -62,10 +52,10 @@ fi
 
 echo -e "\n==== Install complete ====\n"
 
-echo "                                                                                                         "
 echo "  _________                                       _____                                           .__    "
 echo "  \_   ___ \ _______   ____  __  _  __  ____     /  _  \  ______  ______  _____   _______   ____  |  |   "
 echo "  /    \  \/ \_  __ \ /  _ \ \ \/ \/ / /    \   /  /_\  \ \____ \ \____ \ \__  \  \_  __ \_/ __ \ |  |   "
 echo "  \     \____ |  | \/(  <_> ) \     / |   |  \ /    |    \|  |_> >|  |_> > / __ \_ |  | \/\  ___/ |  |__ "
 echo "   \______  / |__|    \____/   \/\_/  |___|  / \____|__  /|   __/ |   __/ (____  / |__|    \___  >|____/ "
 echo "          \/                               \/          \/ |__|    |__|         \/              \/        "
+
