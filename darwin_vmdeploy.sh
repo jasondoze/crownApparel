@@ -17,7 +17,7 @@ else
 fi
 
 # Install gnu-sed
-if ( which gsed > /dev/null)
+if ( which gsed > /dev/null )
 then
   echo -e "\n==== gSed installed ====\n"
 else

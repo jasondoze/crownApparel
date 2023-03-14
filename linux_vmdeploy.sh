@@ -7,6 +7,18 @@ echo "==== Begin crownapp deploy ===="
 # The default password prompt timeout for the sudoers security policy is 5 minutes
 sudo true
 
+# Update apt
+sudo apt update
+
+# Install Snap
+if ( which snap > /dev/null )
+then 
+  echo -e "\n==== Apt installed ====\n"
+else
+  echo -e "\n==== Installing apt ====\n"
+  sudo apt install snapd
+fi
+
 # Install multipass
 if ( which multipass > /dev/null )
 then 
