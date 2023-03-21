@@ -1,9 +1,6 @@
 #!/bin/bash
 
 # This script installs application dependencies on Darwin or Linux to run crownapp locally and or via VM.
-# This should work anywhere
-
-
 
 # Check if NodeJS is installed locally
 if ( which node > /dev/null )
