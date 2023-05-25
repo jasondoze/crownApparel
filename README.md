@@ -39,7 +39,7 @@ Obtain the publishable and secret keys from the developer test mode on the Strip
 
 ### To build and test locally from the terminal without automation:
 
-The crown app requires node version 19
+* The crown app requires node version 19
 
 ```shell
 npm install
