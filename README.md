@@ -1,36 +1,25 @@
 # Crown Apparel
 
-#### Javascript e-commerce application using React and NodeJS
+## Javascript e-commerce application using React and NodeJS
 
-See a running demo here http.crownapparel.com
 
-#### If NodeJS is installed locally, automation will deploy locally on Darwin and Linux. 
+### If NodeJS is installed locally, automation will deploy locally on Darwin and Linux. 
 
-#### If NodeJS is not installed locally, automation will deploy the application on Darwin and Linux via virtual machine.
+### If NodeJS is not installed locally, automation will deploy the application on Darwin and Linux via virtual machine.
 
-* To deploy Crown App, run this command in your local terminal:
+To deploy Crown App, run this command in your local terminal:
 `bash crownapp_deploy.sh`
 
 * When prompted, enter your computer password
 
 * If VM was not instatiated and you are finished using the app, type `^c` into the terminal to exit.
 
-Test the app locally: http://localhost:3000
-
 * If VM was instatiated and you are finished using the app, type "exit" into the virtual machine command prompt.
 
 * If VM was instantiated, you can delete it and all of its contents from localhost by running this command in your local terminal.
 `bash crownapp_destroy.sh` 
 
-#### Build and Deploy to Local VM
-
-#### Build and Deploy to AWS or GCP
-
-#### Build and Deploy using Netlify
-
-#### Set firebase configuration
-
-#### Set netlify serverless to enable stripe
+### Set firebase configuration
 
 To replace the config variable in firebase.utils.js with your own configuration object, go to your Firebase project dashboard and select the gear icon for project settings. Scroll down to the config code section, copy the entire object and paste it in the corresponding variable in your code. This will allow you to use your own Firebase configuration in your application.
 
@@ -61,7 +50,7 @@ npm start
 Test the app locally at http://localhost:3000
 
 
-#### Deploying the Crown App to a virtual machine has several advantages over running it locally: 
+### Deploying the Crown App to a virtual machine has several advantages over running it locally: 
 * Provides an isolated environment for the application, which helps ensure that it runs consistently across all computers. 
 
 * The virtual machine has its own operating system and software dependencies, which are separate from the host computer's operating system.
